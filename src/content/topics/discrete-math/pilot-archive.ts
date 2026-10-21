@@ -1,100 +1,18 @@
-import type { Topic, TopicSet } from '../types';
+import type { Topic, TopicSet } from '../../types';
 
 // ---------------------------------------------------------------------------
-// Discrete Math — pilot Topic sets (concept-first format).
-// Every mathematical claim below passed pipeline/verify-claims.mjs
-// (27/27 checks) on 2026-10-21. Claims map to verification IDs in comments.
+// Discrete Math — pilot Topic sets (concept-first format, sparse pilot style).
+// Lecture 1 has been rebuilt in masterpiece style (see lecture-1-sets.ts).
+// These Lecture 2/3 units keep the pilot format until their own sections
+// upgrade them. All claims below passed pipeline/verify-claims.mjs (family
+// CU1.x–CU3.x) on 2026-10-21.
 // ---------------------------------------------------------------------------
 
 const VERIFIED = '2026-10-21';
 
-const setsPowerSets: Topic = {
-  id: 'dm-topic-power-sets',
-  lessonId: 'discrete-math-sets-lecture-1-archive',
-  cuCode: 'CU 1.5',
-  title: 'Power Sets',
-  quick:
-    'The power set P(A) is the **set of ALL subsets** of A — including ∅ and A itself. If A has $n$ elements, $P(A)$ has $2^n$ elements. Listing them is just deciding, for each element: "in" or "out?"',
-  sourcePages: [19],
-  prerequisites: ['Subsets (∈ vs ⊆)'],
-  doors: [
-    {
-      kind: 'analogy',
-      title: 'Door 1 — The Team Selection',
-      markdown: md([
-        'You have 3 friends: {Ahmed, Sara, Omar}. The club asks: "which subsets can you send to the volunteer day?"',
-        '',
-        'For **each friend** you flip a coin: *comes* or *doesn\u2019t come*. 3 friends → $2\\times2\\times2 = 8$ possible delegations — from "nobody" ($\\emptyset$) to "everybody" (the full set).',
-        '',
-        'A subset is just an attendance list. A power set is the list of **all possible attendance lists**.',
-      ]),
-    },
-    {
-      kind: 'mechanical',
-      title: 'Door 2 — The In/Out Binary Trick (USE THIS IN EXAMS)',
-      markdown: md([
-        'Order the elements, then run through binary counting. For $A = \\{1, 2, 3\\}$, write every 3-bit code (0 = out, 1 = in):',
-        '',
-        '| Code | Subset |',
-        '|------|--------|',
-        '| 000 | $\\emptyset$ |',
-        '| 001 | {3} |',
-        '| 010 | {2} |',
-        '| 011 | {2,3} |',
-        '| 100 | {1} |',
-        '| 101 | {1,3} |',
-        '| 110 | {1,2} |',
-        '| 111 | {1,2,3} |',
-        '',
-        '**Never miss a subset again:** read codes $0 \\to 7$ and each code *is* the subset. $|P(A)| = 2^3 = 8$. ✔ *(verified: CU1.2)*',
-      ]),
-    },
-    {
-      kind: 'formal',
-      title: 'Door 3 — The Formal Definition',
-      markdown: md([
-        '$P(A) = \\{ S : S \\subseteq A \\}$. Every $S$ is a set whose elements all come from $A$. $\\emptyset \\subseteq A$ always (vacuously), and $A \\subseteq A$ always, so both extremes belong to $P(A)$.',
-        '',
-        'The count: each of the $n$ elements is either included or not — 2 independent choices per element — hence $2^n$ by the multiplication principle. *(verified: CU1.1 for n = 0…5)*',
-      ]),
-    },
-  ],
-  methods: [
-    {
-      question: '"Find P({x, y, z})."',
-      collegeMethod:
-        'Recall "∅ is a subset of every set… any set is a subset of itself… the only other subsets are…" — relies on remembering what you might forget.',
-      fastMethod:
-        '$2^3 = 8$ subsets. Write binary codes 000→111, translate each. **~15 seconds, zero omissions.**',
-    },
-    {
-      question: '"How many elements in P(P(A)) if |A| = 4?"',
-      collegeMethod:
-        'The lecture PDF never shows this — a nested power set requires you to build the reasoning yourself.',
-      fastMethod:
-        '$|P(A)| = 2^4 = 16 \\Rightarrow |P(P(A))| = 2^{16} = 65{,}536$. Apply $2^n$ repeatedly. **The exam loves this shortcut.**',
-    },
-  ],
-  recipe: {
-    trigger: '"power set", "all subsets", "how many subsets", |P(A)|',
-    steps: [
-      'Count $n = |A|$.',
-      'If asked *how many*: answer $2^n$ (nested? apply $2^n$ again to the result).',
-      'If asked to *list*: binary codes $0 \\to 2^n - 1$; element $i$ is "in" if bit $i$ = 1.',
-      'Always include $\\emptyset$ and $A$ itself.',
-    ],
-    check: 'Count your list — it must equal $2^n$ exactly. If it doesn\u2019t, you dropped a code.',
-  },
-  traps: [
-    '$|P(A)| = 2^n$ — **not** $n^2$, not $2n$.',
-    '$\\{\\emptyset\\} \\neq \\emptyset$ — the set containing the empty set has one element; the empty set has none.',
-  ],
-  recall: [
-    { q: '|P(A)| when |A| = n?', a: '$2^n$ — every element answers "in or out?"' },
-    { q: 'The two subsets EVERY power set contains?', a: '$\\emptyset$ and $A$ itself.' },
-  ],
-  verifiedOn: VERIFIED,
-};
+function md(lines: string[]): string {
+  return lines.join('\n');
+}
 
 const functionsFunctionTest: Topic = {
   id: 'dm-topic-function-test',
@@ -181,9 +99,9 @@ const functionsFunctionTest: Topic = {
   },
   traps: [
     'Two inputs → same output is **LEGAL** ($T$ sends both 4 and 6 to 1).',
-    'Duplicated pairs like $(1,1,1)$ don\u2019t break anything — sets ignore repetition.',
+    'Duplicated pairs like $(1,1,1)$ don’t break anything — sets ignore repetition.',
     'Codomain ≠ range — the function need not "hit" all of B.',
-    'For $y = x+1$-style rules: don\u2019t just look at the middle of A — check the ENDS.',
+    'For $y = x+1$-style rules: don’t just look at the middle of A — check the ENDS.',
   ],
   recall: [
     { q: 'The two questions of the Function Test?', a: 'Is every left element covered? Does every left element fire exactly once?' },
@@ -208,11 +126,11 @@ const logicContrapositive: Topic = {
       markdown: md([
         '"If you **pay**, you **enter**." ($p$ = pay, $q$ = enter)',
         '',
-        '- **Contrapositive:** "If you **can\u2019t enter**, you **didn\u2019t pay**." — perfectly consistent with the promise. Same deal, said backwards + negated. ✔ *(verified: CU2.1)*',
+        '- **Contrapositive:** "If you **can’t enter**, you **didn’t pay**." — perfectly consistent with the promise. Same deal, said backwards + negated. ✔ *(verified: CU2.1)*',
         '- **Converse:** "If you **enter**, you **paid**." — WAIT, maybe you had a free ticket! A *different claim*. ✘ *(verified: CU2.2)*',
-        '- **Inverse:** "If you **don\u2019t pay**, you **can\u2019t enter**." — Hmm, maybe you snuck in! Also different. ✘ *(verified: CU2.3)*',
+        '- **Inverse:** "If you **don’t pay**, you **can’t enter**." — Hmm, maybe you snuck in! Also different. ✘ *(verified: CU2.3)*',
         '',
-        'The promise breaks in ONE case only: paid but kept outside ($p$ true, $q$ false). The contrapositive breaks in exactly that same case — that\u2019s why they\u2019re equivalent.',
+        'The promise breaks in ONE case only: paid but kept outside ($p$ true, $q$ false). The contrapositive breaks in exactly that same case — that’s why they’re equivalent.',
       ]),
     },
     {
@@ -252,7 +170,7 @@ const logicContrapositive: Topic = {
     },
     {
       question:
-        '"Is \u2019If n is divisible by 6, then n is divisible by 2\u2019 equivalent to \u2019If n is not divisible by 6, then n is not divisible by 2\u2019?"',
+        '"Is ’If n is divisible by 6, then n is divisible by 2’ equivalent to ’If n is not divisible by 6, then n is not divisible by 2’?"',
       collegeMethod:
         'Translate both to symbols, build the 4-row truth table for each, compare columns — accurate but slow.',
       fastMethod:
@@ -268,7 +186,7 @@ const logicContrapositive: Topic = {
       '"Equivalent?" → YES only for the contrapositive (and converse ≡ inverse *with each other*).',
       '"When false?" → the single lying row: $p = T, q = F$.',
     ],
-    check: 'Write your answer\u2019s lying row — for a TRUE equivalence claim it must be the SAME lying row as the original.',
+    check: 'Write your answer’s lying row — for a TRUE equivalence claim it must be the SAME lying row as the original.',
   },
   traps: [
     '"only if" is NOT the converse — "$p$ only if $q$" = $p \\to q$.',
@@ -294,24 +212,14 @@ const logicContrapositive: Topic = {
   verifiedOn: VERIFIED,
 };
 
-function md(lines: string[]): string {
-  return lines.join('\n');
-}
+export const functionsFunctionTestTopicSet: TopicSet = {
+  lessonId: 'discrete-math-functions-lecture-2',
+  lectureLabel: 'Lecture 2 · Functions',
+  topics: [functionsFunctionTest],
+};
 
-export const discreteMathTopicSets: TopicSet[] = [
-  {
-    lessonId: 'discrete-math-sets-lecture-1-archive',
-    lectureLabel: 'Lecture 1 · Sets',
-    topics: [setsPowerSets],
-  },
-  {
-    lessonId: 'discrete-math-functions-lecture-2',
-    lectureLabel: 'Lecture 2 · Functions',
-    topics: [functionsFunctionTest],
-  },
-  {
-    lessonId: 'discrete-math-lecture-3',
-    lectureLabel: 'Lecture 3 · Propositional Logic',
-    topics: [logicContrapositive],
-  },
-];
+export const logicContrapositiveTopicSet: TopicSet = {
+  lessonId: 'discrete-math-lecture-3',
+  lectureLabel: 'Lecture 3 · Propositional Logic',
+  topics: [logicContrapositive],
+};

@@ -1,8 +1,9 @@
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
+import remarkGfm from 'remark-gfm';
 import rehypeKatex from 'rehype-katex';
 
-const markdownPlugins = [remarkMath];
+const markdownPlugins = [remarkMath, remarkGfm];
 const htmlPlugins = [rehypeKatex];
 
 export function LessonMarkdown({ children }: { children: string }) {

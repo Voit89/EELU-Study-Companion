@@ -10,7 +10,7 @@ A lecture is "explained" when **all four phases** have completed:
 |---|---|---|---|
 | A | Extract | `concept-map` (list of CUs with prerequisites, source-page citations, exam weights) | Human reviews CU boundaries |
 | B | Generate | Topic files in `src/content/topics/` (3 doors, dual methods, recipe, traps, recall) | Schema + grounding review |
-| C | Verify | `verify-claims` run | **27/27 checks must pass — a FAIL blocks commit** |
+| C | Verify | `verify-claims` run | **All checks must pass (53/53 as of Lecture 1) — a FAIL blocks commit** |
 | D | Integrate | Topic file imported in `topics/index.ts` | `npm run typecheck` green |
 
 ## Phase A — Extraction rules
@@ -24,20 +24,33 @@ A lecture is "explained" when **all four phases** have completed:
 
 ## Phase B — Topic authoring rules
 
-Every topic MUST contain:
+**Baseline schema (every topic):**
 
-- `quick`: a ≤ 40-word version a student reads in 30 seconds
+- `quick`: the الزتونة — the essence AND the reusable algorithm in one paragraph, the
+  first thing a student reads
 - `doors`: exactly 3 entries, kinds `analogy`, `mechanical`, `formal` — in that order.
   The *mechanical* door is the one students use in exams; it must be actionable as steps.
 - `methods`: ≥ 1 dual-method entry (college vs fast) with an honest, non-strawman
   description of the college method
 - `recipe`: trigger phrased as "if you see…", steps executable without re-reading theory,
   and a `check` that catches the most common mistake for that question type
-- `traps`: at least one genuine distractor encountered in exams
-- `recall`: 1–3 question/answer pairs
+- `traps`: the "what usually confuses students" list — at least one genuine distractor
+- `summaryTable` (where it helps): the compact one-table revision form
+- `recall`: 1–3 question/answer pairs (the "what you need to remember" chain)
 - `sourcePages`: every topic must trace back to its source pages (grounding)
 - Every checkable math claim carries a `(verified: <claimId>)` comment that maps to a
   check in `verify-claims.mjs`
+
+**Masterpiece DNA (Lecture 1 onward — from the Electronics page-12 exemplar):**
+
+- Rebuild from zero: numbered top-level steps, complete arithmetic line by line
+  (no skipped LCMs, no "it follows that")
+- "Understand the figure first": every figure/diagram described in plain language and
+  redrawn as ASCII inside a code fence
+- Recognition tricks: how to identify the question type in 3 seconds
+- Teacher advice + exam shortcuts ("don't list when a count is asked")
+- Sanity check: always end the mechanical door by re-counting / re-testing the answer
+- Arabic memory anchors (الزتونة, افتكر دي) stay in the text as anchors
 
 ## Phase C — Verification
 
@@ -46,8 +59,11 @@ npm run verify:claims
 ```
 
 - Checks are **recomputations**, not string comparisons (truth tables built from
-  `implies()`, power sets enumerated, function tests executed, graph identities summed).
+  `implies()`, power sets enumerated, function tests executed, graph identities summed,
+  set operations computed over canonical element codes).
 - New content = new checks. A claim without a check is a content bug.
+- Claim families: `L1.x` (Lecture 1 Sets — 26 checks), `CU1.x` (power sets), `CU2.x`
+  (contrapositive family), `CU3.x` (function test), `SUP.x` (graph identities).
 - CI-ready: exit code 1 on any failure.
 
 ## Phase D — Integration
