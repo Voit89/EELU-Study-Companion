@@ -10,7 +10,7 @@ A lecture is "explained" when **all four phases** have completed:
 |---|---|---|---|
 | A | Extract | `concept-map` (list of CUs with prerequisites, source-page citations, exam weights) | Human reviews CU boundaries |
 | B | Generate | Topic files in `src/content/topics/` (3 doors, dual methods, recipe, traps, recall) | Schema + grounding review |
-| C | Verify | `verify-claims` run | **All checks must pass (53/53 as of Lecture 1) — a FAIL blocks commit** |
+| C | Verify | `verify-claims` run | **All checks must pass (109/109 as of Electronics Lecture 4) — a FAIL blocks commit** |
 | D | Integrate | Topic file imported in `topics/index.ts` | `npm run typecheck` green |
 
 ## Phase A — Extraction rules
