@@ -28,6 +28,10 @@ export function TopicExplorer({
     () => topicSet.topics.find((entry) => entry.id === activeTopicId) || topicSet.topics[0],
     [topicSet, activeTopicId],
   );
+  const verifiedCount = useMemo(
+    () => topicSet.topics.filter((entry) => entry.verifiedOn).length,
+    [topicSet],
+  );
 
   if (!topic) return null;
 
@@ -35,15 +39,14 @@ export function TopicExplorer({
 
   return (
     <div className="topic-explorer">
-      <header className="topic-explorer-head">
-        <span className="lesson-kicker">CONCEPT MODE · {topicSet.lectureLabel.toUpperCase()}</span>
-        <h1>Learn by concept, not by page</h1>
-        <p className="topic-explorer-intro">
-          Each concept below carries three explanation doors, a fast method for exams, and a verified badge.
-          If one door doesn&rsquo;t click, walk through another. {topicSet.topics.length} concept
-          {topicSet.topics.length === 1 ? '' : 's'} ready for this lecture.
-        </p>
-      </header>
+      <div className="topic-strip">
+        <span className="topic-strip-kicker">CONCEPTS · {topicSet.lectureLabel.toUpperCase()}</span>
+        <span className="topic-strip-meta">
+          {topicSet.topics.length} concept{topicSet.topics.length === 1 ? '' : 's'} ·{' '}
+          {verifiedCount === topicSet.topics.length ? 'all verified' : `${verifiedCount} verified`}
+        </span>
+        <h1 className="visually-hidden">Learn by concept, not by page</h1>
+      </div>
 
       <div className="topic-layout">
         <aside className="topic-list" aria-label="Concepts in this lecture">
@@ -62,7 +65,8 @@ export function TopicExplorer({
               <span className="topic-list-title">{entry.title}</span>
               {entry.verifiedOn && (
                 <span className="topic-verified" title={`Claims verified ${entry.verifiedOn}`}>
-                  <BadgeCheck size={13} /> verified
+                  <BadgeCheck size={14} aria-hidden="true" />
+                  <span className="visually-hidden">verified</span>
                 </span>
               )}
             </button>
